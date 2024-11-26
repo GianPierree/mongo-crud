@@ -1,5 +1,5 @@
-import { Config } from '../../config';
-import { MongoDBConnection } from '../providers/mongodb';
+import { Config } from '../../config/index.js';
+import { MongoDBConnection } from '../providers/mongodb.js';
 
 export class MongoRepository {
   constructor() {
@@ -8,6 +8,7 @@ export class MongoRepository {
   }
 
   async create(document) {
+    await this.dbConnection.connect(); // Asegúrate de conectar antes
     const db = this.dbConnection.getDb();
     const result = await db.collection(this.collectionName).insertOne(document);
     console.log('Document inserted:', result.insertedId);
@@ -15,13 +16,15 @@ export class MongoRepository {
   }
 
   async read(query = {}) {
+    await this.dbConnection.connect(); // Asegúrate de conectar antes
     const db = this.dbConnection.getDb();
-    const documents = await db.collection(this.collectionName).find(query).toArray();
-    console.log('Documents found:', documents);
+    const collection = db.collection(this.collectionName);
+    const documents = await collection.find(query).toArray();
     return documents;
   }
 
   async update(filter, update) {
+    await this.dbConnection.connect(); // Asegúrate de conectar antes
     const db = this.dbConnection.getDb();
     const result = await db.collection(this.collectionName).updateOne(filter, { $set: update });
     console.log(`Matched ${result.matchedCount} document(s), Modified ${result.modifiedCount} document(s)`);
@@ -29,6 +32,7 @@ export class MongoRepository {
   }
 
   async delete(filter) {
+    await this.dbConnection.connect(); // Asegúrate de conectar antes
     const db = this.dbConnection.getDb();
     const result = await db.collection(this.collectionName).deleteOne(filter);
     console.log(`Deleted ${result.deletedCount} document(s)`);

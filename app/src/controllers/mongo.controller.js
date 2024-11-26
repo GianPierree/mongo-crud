@@ -1,4 +1,4 @@
-import { MongoService } from '../services/mongo.service';
+import { MongoService } from '../services/mongo.service.js';
 
 export class MongoController {
   constructor() {

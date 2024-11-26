@@ -16,7 +16,7 @@ export class MongoDBConnection {
 
     try {
       console.log('Connecting to MongoDB...');
-      this.client = new MongoClient(this.uri, { useNewUrlParser: true, useUnifiedTopology: true });
+      this.client = new MongoClient(this.uri); // Elimina las opciones obsoletas
       await this.client.connect();
       this.db = this.client.db(this.dbName);
       console.log(`Connected to database: ${this.dbName}`);

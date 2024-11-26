@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { MongoController } from '../controllers/mongo.controler'
+import { MongoController } from '../controllers/mongo.controller.js'
 
 const router = Router();
 const controller = new MongoController();
